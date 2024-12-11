@@ -7,12 +7,16 @@ const userSchema = new mongoose.Schema({
         required: true,
         lowercase: true,
         trim: true,
+        minLength: 3,
+        maxLength: 30
     },
     lastName: {
         type: String,
         required: true,
         lowercase: true,
         trim: true,
+        minLength: 3,
+        maxLength: 30
     },
     username: {
         type: String,
@@ -20,10 +24,14 @@ const userSchema = new mongoose.Schema({
         unique: true,
         lowercase: true,
         trim: true,
+        minLength: 5,
+        maxLength: 30
     },
     password: {
         type: String,
-        required: true
+        trim: true,
+        required: true,
+        minLength: 5
     }
 });
 
@@ -32,6 +40,6 @@ userSchema.pre('save', function (next) {
     next();
 })
 
-const User = mongoose.Model("User", userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;
