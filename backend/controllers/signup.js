@@ -2,6 +2,8 @@ const { z } = require("zod");
 const User = require("../schemas/user.schema");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
+const bcrypt = require("bcryptjs");
+const Account = require("../schemas/account.schema");
 
 async function signUp(req, res) {
 
@@ -23,7 +25,12 @@ async function signUp(req, res) {
         })
     }
 
+    req.body.password = bcrypt.hashSync(req.body.password, 10);
+
+    //Create user and their account
     const resp = await User.create(req.body);
+    await Account.create({userId: resp._id, balance : Math.floor(Math.random()*10000)})
+
     const token = jwt.sign({userId: resp._id}, JWT_SECRET);
 
     res.status(200).send({
@@ -42,4 +49,4 @@ const signupValidator = z.object({
 
 
 
-module.exports = { signUp };
+module.exports = signUp;

@@ -35,4 +35,4 @@ const loginValidator = z.object({
     password: z.string().min(1)
 })
 
-module.exports = {login};
+module.exports = login;
