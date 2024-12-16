@@ -1,5 +1,6 @@
 const { z } = require("zod");
 const User = require("../schemas/user.schema");
+const { json } = require("express");
 
 async function updateUser(req, res, next) {
     const { success, error} = udpateUserValidator.safeParse(req.body);
@@ -25,4 +26,11 @@ const udpateUserValidator = z.object({
     { message : "At least one field must be entered"}
 )
 
-module.exports = {updateUser};
+async function getAllUsers(req, res){
+    const users = (await User.find({}, {password:0}));
+    return res.status(200).json({
+        users 
+    })
+}
+
+module.exports = {updateUser, getAllUsers};

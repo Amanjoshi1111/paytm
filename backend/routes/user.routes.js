@@ -3,9 +3,11 @@ const asyncHandler = require("../asyncHandler");
 const { signUp } = require("../controllers/signup");
 const { login } = require("../controllers/login");
 const authMiddleware = require("../middlewares/authMiddleware");
-const { updateUser } = require("../controllers/user");
+const { updateUser, getAllUsers } = require("../controllers/user");
 
 const userRoutes = Router();
+
+userRoutes.get("/bulk", authMiddleware, asyncHandler(getAllUsers))
 
 userRoutes
     .get(asyncHandler(authMiddleware), (req, res) => {
